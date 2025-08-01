@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scene Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Scene Quiz</h1>
+  
+  <button onclick="loadBookmarklet()">Запустить викторину:</button>
+  
+  <p>1. Откройте страницу сцены June's Journey</p>
+  <p>2. Вернитесь сюда и нажмите кнопку выше</p>
+  
+  <script>
+    function loadBookmarklet() {
+      const script = document.createElement('script');
+      script.src = 'https://raw.githubusercontent.com/junesquiz/scenequiz/main/bookmarklet.js';
+      document.body.appendChild(script);
+    }
+  </script>
+</body>
+</html>
