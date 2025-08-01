@@ -1,4 +1,4 @@
-javascript:(function(){
+(function(){
 
   const testContainer = document.createElement('div');
   testContainer.id = 'test-container';
