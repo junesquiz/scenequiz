@@ -3,9 +3,9 @@
   const testContainer = document.createElement('div');
   testContainer.id = 'test-container';
   testContainer.innerHTML = `
-    <h2 style="font-size: 16px; margin:5px 0; font-weight:normal;">Тест</h2>
+    <h2 style="font-size: 16px; margin:5px 0; font-weight:normal;">Викторина</h2>
     <div id="difficulty-select" style="margin-bottom:5px;">
-      <span>Выбери сложность: </span>
+      <span>Выберите сложность: </span>
       <button onclick="startTestByStar(1)">1 звезда</button>
       <button onclick="startTestByStar(2)">2 звезды</button>
       <button onclick="startTestByStar(3)">3 звезды</button>
@@ -13,7 +13,7 @@
       <button onclick="startTestByStar(5)">5 звёзд</button>
       <button onclick="startTestByStar('all')">Все объекты</button>
     </div>
-    <div id="test-question">Нажми «Начать»</div>
+    <div id="test-question"></div>
     <div id="test-feedback"></div>
     <div id="test-stats">Счёт: 0 | Попыток: 0</div>
     <img id="test-image" src="" style="display: none;">
@@ -22,7 +22,6 @@
       box-sizing: border-box; pointer-events: none; z-index: 2;
       background: transparent;
     "></div>
-    <button id="test-button" onclick="startTest()">Начать</button>
     <button id="restart-button" style="display:none;" onclick="restartTest()">Пройти ещё раз</button>
   `;
   
@@ -50,7 +49,7 @@
       margin: 5px 0;
       min-height: 10px;
     }
-    #test-button, #difficulty-select button {
+    #difficulty-select button {
       padding: 5px 5px;
       font-size: 16px;
       background-color: #4CAF50;
@@ -60,7 +59,7 @@
       cursor: pointer;
       margin-top: 5px;
     }
-    #test-button:hover, #difficulty-select button:hover {
+    #difficulty-select button:hover {
       background-color: #45a049;
     }
     #test-image {
@@ -78,6 +77,19 @@
     #test-stats {
       margin-top: 5px;
       font-size: 16px;
+    }
+    #restart-button {
+      padding: 5px 5px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    #restart-button:hover {
+      background-color: #45a049;
     }
   `;
   
@@ -133,7 +145,6 @@
   window.startTest = function() {
     if (!testStarted) {
       testStarted = true;
-      document.getElementById('test-button').style.display = 'none';
       document.getElementById('restart-button').style.display = 'none';
       score = 0;
       attempts = 0;
@@ -160,7 +171,6 @@
   window.restartTest = function() {
     testStarted = false;
     document.getElementById('difficulty-select').style.display = 'block';
-    document.getElementById('test-button').style.display = 'none';
     document.getElementById('restart-button').style.display = 'none';
     document.getElementById('test-image').style.display = 'none';
     document.getElementById('test-question').textContent = '';
@@ -175,14 +185,14 @@
   function nextQuestion() {
     hideHighlight();
     if (currentIndex >= shuffledItems.length) {
-      document.getElementById('test-question').textContent = 'Поздравляем! Все объекты найдены.';
+      document.getElementById('test-question').textContent = 'Отлично! Вы прошли все объекты';
       currentItem = null;
       document.getElementById('restart-button').style.display = 'inline-block';
       return;
     }
     currentItem = shuffledItems[currentIndex];
     currentIndex++;
-    document.getElementById('test-question').textContent = `Найди: ${currentItem[1]}`;
+    document.getElementById('test-question').textContent = `Найдите: ${currentItem[1]}`;
     if (document.getElementById('test-feedback').textContent === 'Неправильно') {
       document.getElementById('test-feedback').textContent = '';
       document.getElementById('test-feedback').className = '';
