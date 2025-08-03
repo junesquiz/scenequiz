@@ -1,5 +1,5 @@
 (function(){
-// Проверка
+
   function sanitizeName(name) {
     return name.replace(/«/g, '&laquo;')
                .replace(/»/g, '&raquo;')
