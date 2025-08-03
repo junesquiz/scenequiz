@@ -1,5 +1,18 @@
 (function(){
 
+  function sanitizeName(name) {
+    return name.replace(/«/g, '&laquo;')
+               .replace(/»/g, '&raquo;')
+               .replace(/"/g, '&quot;')
+               .replace(/'/g, '&#39;');
+  }
+
+  function unsanitizeName(name) {
+    return name.replace(/&laquo;/g, '«')
+               .replace(/&raquo;/g, '»')
+               .replace(/&quot;/g, '"')
+               .replace(/&#39;/g, "'");
+  }
   const testContainer = document.createElement('div');
   testContainer.id = 'test-container';
   testContainer.innerHTML = `
@@ -120,7 +133,11 @@
   window.startTestByStar = function(star) {
     document.getElementById('difficulty-select').style.display = 'none';
     if (star == 'all') {
-      selectedItems = [].concat(...items);
+      selectedItems = [].concat(...items).map(item => [
+        item[0], 
+        unsanitizeName(item[1]), 
+        ...item.slice(2)
+      ]);
     } else {
       const starDiv = document.getElementById(`${star}-star`);
       let displayNames = [];
@@ -131,13 +148,21 @@
           let parts = th.innerHTML.split('<br>');
           if (parts.length >= 3) {
             let displayName = parts[2].replace(/<[^>]+>/g, '').trim();
-            if (displayName) displayNames.push(displayName);
+            if (displayName) displayNames.push(sanitizeName(displayName));
           }
         });
       }
       selectedItems = [].concat(...items).filter(item =>
-        displayNames.includes(item[1])
-      );
+        displayNames.includes(sanitizeName(item[1])) 
+      ).map(item => [
+        item[0], 
+        unsanitizeName(item[1]),
+        ...item.slice(2)
+      ]);
+
+      console.log(`Выбран уровень сложности: ${star} звезд`);
+      console.log('Имена для поиска:', displayNames);
+      console.log('Найденные объекты:', selectedItems.map(item => item[1]));
     }
     startTest();
   };
